@@ -104,14 +104,23 @@ void loop() {
   digitalWrite(ULTRASONIC_TRIG_PIN_FRONT, LOW);
 
   duration = pulseIn(ULTRASONIC_ECHO_PIN_FRONT, HIGH);
-  float durationInSeconds = duration / 1000000;
-  float soundSpeed = 331.4 + (0.606 * dht11temp) + (0.0124 * humidity);
-  float distance = soundSpeed * durationInSeconds;
+  //double durationInSeconds = duration / 1000000;
+  double soundSpeed = 331.4 + (0.606 * dht11temp);// + (0.0124 * humidity);
+  double distance = (soundSpeed * duration) / 1000000;
 
   if(distance < MINIMUM_PROXIMAL_DISTANCE){
 
     proximityFrontDanger = true;
     proximityFrontDistance = distance;
+    
+    Serial.println("***************FRONT******************************");
+    Serial.print("Duration FRONT : ");
+    Serial.println(duration);
+    Serial.print("Temp : ");
+    Serial.println(dht11temp);
+    Serial.print("Front Proximity Danger!    :  Distance : ");
+    Serial.println(proximityFrontDistance);
+    Serial.println("**************************************************");
     
   }else{
 
@@ -126,14 +135,23 @@ void loop() {
   digitalWrite(ULTRASONIC_TRIG_PIN_REAR, LOW);
   
   duration = pulseIn(ULTRASONIC_ECHO_PIN_REAR, HIGH);
-  durationInSeconds = duration / 1000000;
-  soundSpeed = 331.4 + (0.606 * dht11temp) + (0.0124 * humidity);
-  distance = soundSpeed * durationInSeconds;
+  //durationInSeconds = duration / 1000000;
+  soundSpeed = 331.4 + (0.606 * dht11temp);// + (0.0124 * humidity);
+  distance = (soundSpeed * duration) / 1000000;
 
   if(distance < MINIMUM_PROXIMAL_DISTANCE){
 
     proximityRearDanger = true;
     proximityRearDistance = distance;
+
+    Serial.println("********************REAR*************************");
+    Serial.print("Duration REAR : ");
+    Serial.println(duration);
+    Serial.print("Temp : ");
+    Serial.println(dht11temp);
+    Serial.print("REAR Proximity Danger!    :  Distance : ");
+    Serial.println(proximityRearDistance);
+    Serial.println("*************************************************");
     
   }else{
 
@@ -162,7 +180,7 @@ void onRequestEventHandler(){
   }else{
 
     Wire.write("F");
-    Wire.write(0);
+    Wire.write('?');
     Wire.write(":");
     
   }
@@ -177,7 +195,7 @@ void onRequestEventHandler(){
   }else{
 
     Wire.write("R");
-    Wire.write(0);
+    Wire.write('?');
     Wire.write(";");
     
   }

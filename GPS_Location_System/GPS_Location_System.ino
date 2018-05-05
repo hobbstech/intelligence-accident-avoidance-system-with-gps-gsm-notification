@@ -28,7 +28,7 @@ void setup() {
 
   if(DEBUG_GPSECHO){
     
-    Serial.begin(115200);
+    Serial.begin(9600);
     Serial.println("Initializing the GPS, in the Debug Mode");
  
   }
